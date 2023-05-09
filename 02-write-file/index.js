@@ -26,7 +26,7 @@ rl.on('line', (input) => {
 });
 
 rl.on('close', () => {
-  console.log('Вы вышли из программы');
+  console.log(`\nВы вышли из программы`);
   process.exit(0);
 });
 
