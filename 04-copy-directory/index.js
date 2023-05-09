@@ -8,6 +8,17 @@ fs.mkdir(dest, { recursive: true }, (err) => {
   if (err) throw err;
   fs.readdir(src, (err, files) => {
     if (err) throw err;
+    fs.readdir(dest, (err, destFiles) => {
+      if (err) throw err;
+      destFiles.forEach((file) => {
+        if (!files.includes(file)) {
+          const destPath = path.join(dest, file);
+          fs.unlink(destPath, (err) => {
+            if (err) throw err;
+          });
+        }
+      });
+    });
     files.forEach((file) => {
       const srcPath = path.join(src, file);
       const destPath = path.join(dest, file);
