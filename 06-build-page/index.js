@@ -10,9 +10,8 @@ async function copyAssets(srcDir, destDir) {
   try {
     const stat = await fs.stat(srcDir);
     if (stat.isDirectory()) {
-      try {
-        await fs.access(destDir, fs.constants.F_OK);
-      } catch (error) {
+      const destExists = await fs.access(destDir, fs.constants.F_OK).then(() => true).catch(() => false);
+      if (!destExists) {
         await fs.mkdir(destDir);
       }
       const files = await fs.readdir(srcDir);
@@ -32,9 +31,8 @@ async function copyAssets(srcDir, destDir) {
 
 (async function() {
   try {
-    try {
-      await fs.access(distDir, fs.constants.F_OK)
-    } catch (error) {
+    const distExists = await fs.access(distDir, fs.constants.F_OK).then(() => true).catch(() => false);
+    if (!distExists) {
       await fs.mkdir(distDir);
     }
 
